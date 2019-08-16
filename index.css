@@ -14,3 +14,18 @@ body {
 	margin-top: 20px;
 }
 
+.movie {
+	background-color: rgb(243, 243, 243);
+}
+
+.movies-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content:flex-start;
+}
+
+.card-title {
+	padding-top: 10px;
+}
