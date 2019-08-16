@@ -34,13 +34,21 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="body">
             <p class="card-title">${currentMovie.Title}</p>
             <p class="card-text">${currentMovie.Year}</p>
-            <a href="#" class="btn btn-primary">Add Movie</a>
+            <button href="#" class="btn btn-primary">Add Movie</button>
             </div>
             </div>
             `
         })
         return movieHTML.join('')
     }
-    var movieContainer = document.querySelector('.movies-container')
-    movieContainer.innerHTML = renderMovies(movieData)
+    // RENDERS MOVIES BELOW
+    // var movieContainer = document.querySelector('.movies-container')
+    // movieContainer.innerHTML = renderMovies(movieData)
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var movieContainer = document.querySelector('.movies-container')
+        movieContainer.innerHTML = renderMovies(movieData)
+    })
 })
+
+$('.btn').onclick = savetoWatchlist(`${movieData.imdbID}`);
