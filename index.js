@@ -52,5 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 function saveToWatchlist (imdbID) {
-    alert('you clicked a button!')
+    var movie = movieData.find((currentMovie) => {
+        return currentMovie.imdbID == imdbID
+    });
+    var watchlistJSON = localStorage.getItem(‘watchlist’);
+    var watchlist = JSON.parse(watchlistJSON);
 }
