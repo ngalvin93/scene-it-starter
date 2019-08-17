@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="body">
             <p class="card-title">${currentMovie.Title}</p>
             <p class="card-text">${currentMovie.Year}</p>
-            <button href="#" class="btn btn-primary">Add Movie</button>
+            <button href="#" class="btn btn-primary" onclick="saveToWatchlist('${currentMovie.imdbID}')">Add Movie</button>
             </div>
             </div>
             `
@@ -51,4 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 })
 
-$('.btn').onclick = savetoWatchlist(`${movieData.imdbID}`);
+function saveToWatchlist (imdbID) {
+    alert('you clicked a button!')
+}
