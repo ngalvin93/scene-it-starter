@@ -1,13 +1,13 @@
 body {
-	background-color: #B2E9FD;
+	background-color: rgb(43, 44, 46);
 }
 
 .header h2 {
-	color: #DC4247;
+	color: rgb(235, 196, 23);
 }
 
 .header p {
-	color: #50524F;
+	color: rgb(255, 255, 255);
 }
 
 .results {
@@ -28,4 +28,8 @@ body {
 
 .card-title {
 	padding-top: 10px;
+}
+
+#watchlist-button {
+	margin: 10px;
 }

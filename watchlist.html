@@ -12,7 +12,7 @@
 	 crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="data.js"></script>
-	<script src="index.js"></script>
+	<script src="watchlist.js"></script>
 	<link rel="stylesheet" href="index.css" />
 </head>
 <body>
@@ -22,37 +22,14 @@
 				<h2 class="display-2">Scene It</h2>
 				<p>Search for movies you want to watch.</p>
 				<p>Save them to your list</p>
-				<a href="watchlist.html"><div class="btn btn-primary" id="watchlist-button">My Watchlist</div></a>
-				<div class="btn btn-danger" id="clear-watchlist-button">Clear Watchlist</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 search">
-				<form id="search-form">
-					<div class="input-group input-group-lg">
-						<input class="form-control search-bar" placeholder="Search for a movie...">	
-						<button class="btn btn-primary input-group-btn" type="submit">Search</button>
-				    </div>
-				</form>
+                <a href="index.html"><div class="btn btn-primary" id="watchlist-button">Go Back</div></a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-12 results">
-
-				<!-- MOVIES SHOW UP HERE! -->
-				<div class="movies-container">
-					<!-- <div class="movie card my-3 mx-3 py-3 px-3" style="width: 18rem;">
-						<img class="movie-poster card-img-top" src="/no_image.png">
-							<div class="body">
-								<p class="card-title">Movie Title</p>
-								<p class="card-text">Release Date</p>
-								<button href="#" class="btn btn-primary">Add Movie</button>
-							</div>
-					</div> -->
-				</div>
+				<div class="movies-container"></div>
 		</div>
 
 	</div>
-
 </body>
 </html>

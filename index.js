@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="movie card my-3 mx-3 py-3 px-3" style="width: 18rem;">
             <img class="movie-poster card-img-top" src="${currentMovie.Poster}">
             <div class="body">
-            <p class="card-title">${currentMovie.Title}</p>
+            <h5 class="card-title">${currentMovie.Title}</h5>
             <p class="card-text">${currentMovie.Year}</p>
-            <button href="#" class="btn btn-primary" onclick="saveToWatchlist('${currentMovie.imdbID}')">Add Movie</button>
+            <button href="#" class="btn btn-primary add-movie" data-movieid="${currentMovie.imdbID}">Add Movie</button>
             </div>
             </div>
             `
@@ -49,12 +49,42 @@ document.addEventListener('DOMContentLoaded', function () {
         var movieContainer = document.querySelector('.movies-container')
         movieContainer.innerHTML = renderMovies(movieData)
     })
+    document.querySelector('.movies-container').addEventListener('click', saveToWatchlist)
+    document.querySelector('#clear-watchlist-button').addEventListener('click', clearWatchlist)
 })
 
-function saveToWatchlist (imdbID) {
-    var movie = movieData.find((currentMovie) => {
-        return currentMovie.imdbID == imdbID
-    });
-    var watchlistJSON = localStorage.getItem(‘watchlist’);
-    var watchlist = JSON.parse(watchlistJSON);
+function saveToWatchlist (event) {
+    const buttonTarget = event.target
+    const movieId = buttonTarget.dataset.movieid
+    if(buttonTarget.classList.contains('add-movie')) {
+        console.log(movieId)
+    } else {
+        console.log('You did not click the add button!')
+    }
+    let watchlistJSON = localStorage.getItem('watchlist');
+    let watchlist = JSON.parse(watchlistJSON);
+    if (watchlist === null) {
+        watchlist = [];
+        watchlist.push(movieId);
+    } else {
+        watchlist.push(movieId);
+    }
+    watchlistJSON = JSON.stringify(watchlist);
+    localStorage.setItem('watchlist', watchlistJSON);
 }
+
+function clearWatchlist () {
+    localStorage.clear('watchlist');
+    console.log('Watchlist was cleared!')
+}
+
+
+
+
+// function saveToWatchlist (imdbID) {
+//     var movie = movieData.find((currentMovie) => {
+//         return currentMovie.imdbID == imdbID
+//     });
+//     var watchlistJSON = localStorage.getItem(‘watchlist’);
+//     var watchlist = JSON.parse(watchlistJSON);
+// }
