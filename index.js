@@ -26,7 +26,7 @@
 // }
 
 document.addEventListener('DOMContentLoaded', function () {
-    function renderMovies (movieArray) { // what do the parameters in each function equal to?
+    function renderMovies (movieArray) {
         var movieHTML = movieArray.map(function (currentMovie) {
             return `
             <div class="movie card my-3 mx-3 py-3 px-3" style="width: 18rem;">
@@ -46,8 +46,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // movieContainer.innerHTML = renderMovies(movieData)
     document.getElementById('search-form').addEventListener('submit', function (e) {
         e.preventDefault();
+        const searchString = document.getElementById('search-bar').value
+        const urlEncodedSearchString = encodeURIComponent(searchString)
+        console.log(urlEncodedSearchString)
+        axios.get("http://www.omdbapi.com/?apikey=3430a78&s="+urlEncodedSearchString)
+            .then(function(response){
+                movieContainer.innerHTML = renderMovies(response.data.Search)
+            })
         var movieContainer = document.querySelector('.movies-container')
-        movieContainer.innerHTML = renderMovies(movieData)
+        //movieContainer.innerHTML = renderMovies(movieData)
     })
     document.querySelector('.movies-container').addEventListener('click', saveToWatchlist)
     document.querySelector('#clear-watchlist-button').addEventListener('click', clearWatchlist)
@@ -57,20 +64,25 @@ function saveToWatchlist (event) {
     const buttonTarget = event.target
     const movieId = buttonTarget.dataset.movieid
     if(buttonTarget.classList.contains('add-movie')) {
-        console.log(movieId)
-    } else {
-        console.log('You did not click the add button!')
-    }
-    let watchlistJSON = localStorage.getItem('watchlist');
-    let watchlist = JSON.parse(watchlistJSON);
-    if (watchlist === null) {
-        watchlist = [];
-        watchlist.push(movieId);
-    } else {
-        watchlist.push(movieId);
-    }
-    watchlistJSON = JSON.stringify(watchlist);
-    localStorage.setItem('watchlist', watchlistJSON);
+        //console.log(movieId)
+        axios.get(`http://www.omdbapi.com/?apikey=3430a78&i=${movieId}`)
+        .then(function(movieObject){
+            console.log(movieObject)// save the selected movie object to local storage
+        })
+        .then(function(movieObject2){
+            let watchlistJSON = localStorage.getItem('watchlist');
+            let watchlist = JSON.parse(watchlistJSON);
+            if (watchlist === null) {
+                watchlist = [];
+                watchlist.push(movieObject2);
+            } else {
+                watchlist.push(movieObject2);
+            }
+            watchlistJSON = JSON.stringify(watchlist);
+            localStorage.setItem('watchlist', watchlistJSON);
+        })
+    } 
+    
 }
 
 function clearWatchlist () {
