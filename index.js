@@ -1,29 +1,4 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//     let renderMovies = function (movieArray) {
-//         movieArray.map(function (currentMovie) {
-//             $('.movie-poster').attr('src',`${currentMovie.Poster}`);
-//             $('.card-title').html(`${currentMovie.Title}`);
-//             $('.card-text').html(`${currentMovie.Year}`);
-//         });
-//         return renderMovies.join('')
-//     }
-// });
-
-// document.addEventListener('DOMContentLoaded', function () {
-//         function renderMovies (movieData) {
-//         $(movieData).map(function (currentMovie) {
-//             console.log(`
-//             <div class="movie card my-3 mx-3 py-3 px-3" style="width: 18rem;">
-//                 <img class="movie-poster card-img-top" src="${currentMovie.Poster}">
-//                 <div class="body">
-//                     <p class="card-title">${currentMovie.Title}</p>
-//                     <p class="card-text">${currentMovie.Year}</p>
-//                     <a href="#" class="btn btn-primary">Add Movie</a>
-//                 </div>
-//             </div>
-//             `)
-//         })
-// }
+var movies = null; //this is here so that you can access the api request results across all functions
 
 document.addEventListener('DOMContentLoaded', function () {
     function renderMovies (movieArray) {
@@ -34,27 +9,25 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="body">
             <h5 class="card-title">${currentMovie.Title}</h5>
             <p class="card-text">${currentMovie.Year}</p>
-            <button href="#" class="btn btn-primary add-movie" data-movieid="${currentMovie.imdbID}">Add Movie</button>
+            <button href="#" class="btn btn-primary add-movie" data-movieid="${currentMovie.imdbID}" data-movieTitle="${currentMovie.Title}">Add Movie</button>
             </div>
             </div>
             `
         })
         return movieHTML.join('')
     }
-    // RENDERS MOVIES BELOW
-    // var movieContainer = document.querySelector('.movies-container')
-    // movieContainer.innerHTML = renderMovies(movieData)
+
+    // get request from api when the user enters a search term and clicks submit
     document.getElementById('search-form').addEventListener('submit', function (e) {
         e.preventDefault();
         const searchString = document.getElementById('search-bar').value
         const urlEncodedSearchString = encodeURIComponent(searchString)
-        console.log(urlEncodedSearchString)
+        const movieContainer = document.querySelector('.movies-container')
         axios.get("http://www.omdbapi.com/?apikey=3430a78&s="+urlEncodedSearchString)
             .then(function(response){
-                movieContainer.innerHTML = renderMovies(response.data.Search)
+                movies = response.data.Search;
+                movieContainer.innerHTML = renderMovies(movies);
             })
-        var movieContainer = document.querySelector('.movies-container')
-        //movieContainer.innerHTML = renderMovies(movieData)
     })
     document.querySelector('.movies-container').addEventListener('click', saveToWatchlist)
     document.querySelector('#clear-watchlist-button').addEventListener('click', clearWatchlist)
@@ -63,40 +36,31 @@ document.addEventListener('DOMContentLoaded', function () {
 function saveToWatchlist (event) {
     const buttonTarget = event.target
     const movieId = buttonTarget.dataset.movieid
-    if(buttonTarget.classList.contains('add-movie')) {
-        //console.log(movieId)
-        axios.get(`http://www.omdbapi.com/?apikey=3430a78&i=${movieId}`)
-        .then(function(movieObject){
-            console.log(movieObject)// save the selected movie object to local storage
-        })
-        .then(function(movieObject2){
-            let watchlistJSON = localStorage.getItem('watchlist');
-            let watchlist = JSON.parse(watchlistJSON);
-            if (watchlist === null) {
-                watchlist = [];
-                watchlist.push(movieObject2);
-            } else {
-                watchlist.push(movieObject2);
-            }
-            watchlistJSON = JSON.stringify(watchlist);
-            localStorage.setItem('watchlist', watchlistJSON);
-        })
-    } 
-    
+    // single returns checks if it satisfies the conditional and if so, continues to the next line
+    if (!buttonTarget.classList.contains('add-movie')) return
+    if (typeof movieId !== 'string') return
+    let movie = movies.find(function(currentMovie) {
+        if (currentMovie.imdbID == movieId) {
+            return true;
+        } else {
+            return false;
+        }
+    })
+    // this goes into the local storage to parse the saved movie data
+    let watchlistJSON = localStorage.getItem('watchlist')
+    let watchlist = JSON.parse(watchlistJSON)
+    // if the watchlist is empty, initialize a new array
+    if (watchlist === null) {
+        watchlist = []
+    }
+    // push the selected movie
+    watchlist.push(movie)
+    // stringify the movie object data to save into the local storage (local storage can only save strings)
+    watchlistJSON = JSON.stringify(watchlist)
+    localStorage.setItem('watchlist', watchlistJSON)
 }
 
 function clearWatchlist () {
     localStorage.clear('watchlist');
     console.log('Watchlist was cleared!')
 }
-
-
-
-
-// function saveToWatchlist (imdbID) {
-//     var movie = movieData.find((currentMovie) => {
-//         return currentMovie.imdbID == imdbID
-//     });
-//     var watchlistJSON = localStorage.getItem(‘watchlist’);
-//     var watchlist = JSON.parse(watchlistJSON);
-// }
