@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderMovies (watchlist) {
         var movieHTML = watchlist.map(function (movieData) {
             return `
-            <div class="movie card my-3 mx-3 py-3 px-3" style="width: 18rem;">
+            <div class="movie card my-3 mx-3 py-3 px-3 shadow" style="width: 18rem;">
             <img class="movie-poster card-img-top" src="${movieData.Poster}">
             <div class="body">
             <h5 class="card-title">${movieData.Title}</h5>
@@ -18,4 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const movieContainer = document.querySelector('.movies-container')
     movieContainer.innerHTML = renderMovies(watchlist);
+    document.querySelector('#clear-watchlist-button').addEventListener('click', clearWatchlist)
+    
+    function clearWatchlist () {
+        localStorage.clear('watchlist');
+        console.log('Watchlist was cleared!')
+    }
 })

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderMovies (movieArray) {
         var movieHTML = movieArray.map(function (currentMovie) {
             return `
-            <div class="movie card my-3 mx-3 py-3 px-3" style="width: 18rem;">
+            <div class="movie card my-3 mx-3 py-3 px-3 shadow" style="width: 18rem;">
             <img class="movie-poster card-img-top" src="${currentMovie.Poster}">
             <div class="body">
             <h5 class="card-title">${currentMovie.Title}</h5>
@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
             })
     })
     document.querySelector('.movies-container').addEventListener('click', saveToWatchlist)
-    document.querySelector('#clear-watchlist-button').addEventListener('click', clearWatchlist)
 })
 
 function saveToWatchlist (event) {
@@ -38,6 +37,7 @@ function saveToWatchlist (event) {
     const movieId = buttonTarget.dataset.movieid
     // single returns checks if it satisfies the conditional and if so, continues to the next line
     if (!buttonTarget.classList.contains('add-movie')) return
+    buttonTarget.innerHTML = 'Added'
     if (typeof movieId !== 'string') return
     let movie = movies.find(function(currentMovie) {
         if (currentMovie.imdbID == movieId) {
@@ -58,9 +58,4 @@ function saveToWatchlist (event) {
     // stringify the movie object data to save into the local storage (local storage can only save strings)
     watchlistJSON = JSON.stringify(watchlist)
     localStorage.setItem('watchlist', watchlistJSON)
-}
-
-function clearWatchlist () {
-    localStorage.clear('watchlist');
-    console.log('Watchlist was cleared!')
 }

@@ -1,5 +1,5 @@
 body {
-	background-color: rgb(43, 44, 46);
+	background-color: white;
 }
 
 .header h2 {
@@ -7,7 +7,7 @@ body {
 }
 
 .header p {
-	color: rgb(255, 255, 255);
+	color: #333333;
 }
 
 .results {
@@ -15,7 +15,7 @@ body {
 }
 
 .movie {
-	background-color: rgb(243, 243, 243);
+	background-color: white;
 }
 
 .movies-container {
